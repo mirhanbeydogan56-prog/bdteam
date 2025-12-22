@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>İhbar</title>
+</head>
+<body>
+<h1>İhbar</h1>
+
+<form id="i">
+<input placeholder="Konu"><br><br>
+<textarea placeholder="Detay"></textarea><br><br>
+<button>Gönder</button>
+</form>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",
+ databaseURL: "https://bd-team-30e74-default-rtdb.firebaseio.com",
+ projectId: "bd-team-30e74",
+ appId: "1:240144028116:web:22773de26fcb00f2d78641"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+i.onsubmit=e=>{
+ e.preventDefault();
+ push(ref(db,"ihbarlar"),{
+  konu:i[0].value,
+  detay:i[1].value,
+  time:Date.now()
+ });
+ alert("İhbar gönderildi");
+ i.reset();
+};
+</script>
+</body>
+</html>
