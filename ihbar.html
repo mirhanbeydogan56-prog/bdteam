@@ -1,42 +1,17 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<title>İhbar</title>
-</head>
-<body>
-<h1>İhbar</h1>
-
-<form id="i">
-<input placeholder="Konu"><br><br>
-<textarea placeholder="Detay"></textarea><br><br>
-<button>Gönder</button>
-</form>
-
+<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><title>İhbar</title>
+<style>body{background:#000;color:#0f3;font-family:monospace}textarea,button{width:100%;padding:12px;background:#000;color:#0f3;border:1px solid #0f3}</style></head>
+<body><img src="logo.png" width="40"><h3>> Gizli İhbar</h3>
+<textarea id="msg" rows="6" placeholder="Şifreli mesaj"></textarea>
+<button onclick="send()">GÖNDER</button><p id="s"></p>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
-const firebaseConfig = {
- apiKey: "AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",
- databaseURL: "https://bd-team-30e74-default-rtdb.firebaseio.com",
- projectId: "bd-team-30e74",
- appId: "1:240144028116:web:22773de26fcb00f2d78641"
-};
 
-const app = initializeApp(firebaseConfig);
+const firebaseConfig={apiKey:"AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",databaseURL:"https://bd-team-30e74-default-rtdb.firebaseio.com"};
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-i.onsubmit=e=>{
- e.preventDefault();
- push(ref(db,"ihbarlar"),{
-  konu:i[0].value,
-  detay:i[1].value,
-  time:Date.now()
- });
- alert("İhbar gönderildi");
- i.reset();
-};
-</script>
-</body>
-</html>
+
+window.send = ()=>{push(ref(db,'ihbarlar'),{mesaj:msg.value,tarih:Date.now()});s.innerText='Alındı';}
+</script></body></html>
