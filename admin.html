@@ -1,18 +1,76 @@
-<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><title>Admin</title>
-<style>body{background:#000;color:#0f3;font-family:monospace}pre{border:1px solid #0f3;padding:10px}</style></head>
-<body><img src="logo.png" width="40"><h3>> Yönetim Paneli</h3>
-<h4>İhbarlar</h4><pre id="ihbar"></pre>
-<h4>İş Birliği</h4><pre id="is"></pre>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Admin</title>
+<style>
+body{background:#000;color:#0f3;font-family:monospace}
+.card{border:1px solid #0f3;padding:10px;margin:8px}
+input,button{background:#000;color:#0f3;border:1px solid #0f3;padding:6px;margin-top:6px}
+button:hover{background:#0f3;color:#000}
+</style>
+</head>
+<body>
+
+<img src="logo.png" width="40">
+<h3>> Yönetim Paneli</h3>
+
+<h4>Operatörler</h4>
+<div id="operators"></div>
+
 <script type="module">
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+import { initializeApp,getApps } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getDatabase,ref,onValue,set,push } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
 
+const app=getApps().length?getApps()[0]:initializeApp({
+  apiKey:"AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",
+  databaseURL:"https://bd-team-30e74-default-rtdb.firebaseio.com"
+});
 
-const firebaseConfig={apiKey:"AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",databaseURL:"https://bd-team-30e74-default-rtdb.firebaseio.com"};
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const auth=getAuth(app);
+const db=getDatabase(app);
 
+onAuthStateChanged(auth,u=>{
+  if(!u) location.href='index.html';
+});
 
-onValue(ref(db,'ihbarlar'),s=>ihbar.innerText=JSON.stringify(s.val(),null,2));
-onValue(ref(db,'isbirligi'),s=>is.innerText=JSON.stringify(s.val(),null,2));
-</script></body></html>
+onValue(ref(db,'yetkiliKullanicilar'),snap=>{
+  operators.innerHTML='';
+  const v=snap.val()||{};
+  Object.entries(v).forEach(([uid,u])=>{
+    operators.innerHTML+=`
+      <div class="card">
+        <b>${u.email}</b><br>
+        <input id="g_${uid}" placeholder="Yeni görev">
+        <button onclick="addTask('${uid}')">Görev Ekle</button>
+      </div>`;
+  });
+});
+
+window.addTask = (uid)=>{
+  const t=document.getElementById('g_'+uid).value;
+  if(!t) return;
+  push(ref(db,'gorevler/'+uid),{
+    text:t,
+    tarih:Date.now()
+  });
+};
+
+window.createOperator = async ()=>{
+  const uid=prompt("Kullanıcı UID");
+  const email=prompt("E-posta");
+  const pass=prompt("Şifre");
+
+  await set(ref(db,'yetkiliKullanicilar/'+uid),{
+    email:email,
+    sifre:pass,
+    rol:'operator',
+    tarih:Date.now()
+  });
+
+  alert("Operatör eklendi");
+};
+</script>
+</body>
+</html>
