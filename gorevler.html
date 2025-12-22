@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Görevler</title>
+<style>
+body{background:#000;color:#0f3;font-family:monospace}
+.card{border:1px solid #0f3;padding:10px;margin:8px}
+</style>
+</head>
+<body>
+
+<img src="logo.png" width="40">
+<h3>> Görevlerim</h3>
+<div id="tasks"></div>
+
+<script type="module">
+import { initializeApp,getApps } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth,onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getDatabase,ref,onValue } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
+
+const app=getApps().length?getApps()[0]:initializeApp({
+  apiKey:"AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",
+  databaseURL:"https://bd-team-30e74-default-rtdb.firebaseio.com"
+});
+
+const auth=getAuth(app);
+const db=getDatabase(app);
+
+onAuthStateChanged(auth,u=>{
+  if(!u) location.href='index.html';
+
+  onValue(ref(db,'gorevler/'+u.uid),snap=>{
+    tasks.innerHTML='';
+    const v=snap.val()||{};
+    Object.values(v).forEach(g=>{
+      tasks.innerHTML+=`<div class="card">${g.text}</div>`;
+    });
+  });
+});
+</script>
+</body>
+</html>
