@@ -1,1 +1,75 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BackBDTeam</title>
+<style>
+body{margin:0;font-family:Segoe UI;background:#0e0e0e;color:#fff}
+header{background:#151515}
+nav{max-width:1200px;margin:auto;display:flex;justify-content:space-between;padding:15px}
+a{color:#ddd;text-decoration:none;margin-left:15px}
+main{padding:80px;background:#bfe7ff;color:#000}
+.card{background:#fff;padding:20px;border-radius:12px;max-width:400px}
+input,textarea,button{width:100%;margin-top:10px;padding:10px}
+button{background:#0066ff;color:#fff;border:none}
+</style>
+</head>
+<body>
+
+<header>
+<nav>
+<b>BackBDTeam</b>
+<div>
+<a href="misyon.html">Misyon</a>
+<a href="ihbar.html">İhbar</a>
+<a href="giris.html">Giriş yap</a>
+</div>
+</nav>
+</header>
+
+<main>
+<h1>BackBDTeam</h1>
+<div class="card">
+<form id="form">
+<input placeholder="Takma ad">
+<input placeholder="E-posta">
+<input placeholder="Uzmanlık">
+<textarea placeholder="Kendinden bahset"></textarea>
+<button>Başvur</button>
+</form>
+</div>
+</main>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",
+ authDomain: "bd-team-30e74.firebaseapp.com",
+ databaseURL: "https://bd-team-30e74-default-rtdb.firebaseio.com",
+ projectId: "bd-team-30e74",
+ appId: "1:240144028116:web:22773de26fcb00f2d78641"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+document.getElementById("form").onsubmit = e => {
+ e.preventDefault();
+ const d = e.target;
+ push(ref(db,"basvurular"),{
+  nick:d[0].value,
+  email:d[1].value,
+  uzmanlik:d[2].value,
+  about:d[3].value,
+  time:Date.now()
+ });
+ alert("Gönderildi");
+ d.reset();
+};
+</script>
+</body>
+</html>
 
