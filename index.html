@@ -1,75 +1,40 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BackBDTeam</title>
+<meta charset="UTF-8"><title>Uluslararası Hak Koruma Birimi</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-body{margin:0;font-family:Segoe UI;background:#0e0e0e;color:#fff}
-header{background:#151515}
-nav{max-width:1200px;margin:auto;display:flex;justify-content:space-between;padding:15px}
-a{color:#ddd;text-decoration:none;margin-left:15px}
-main{padding:80px;background:#bfe7ff;color:#000}
-.card{background:#fff;padding:20px;border-radius:12px;max-width:400px}
-input,textarea,button{width:100%;margin-top:10px;padding:10px}
-button{background:#0066ff;color:#fff;border:none}
+body{margin:0;font-family:monospace;background:#050505;color:#00ff9c}
+header{display:flex;gap:12px;align-items:center;padding:16px;border-bottom:1px solid #0f3}
+img{width:40px}
+.container{padding:30px}
+input,button{width:100%;padding:12px;margin:8px 0;background:#000;color:#0f3;border:1px solid #0f3}
+button:hover{background:#0f3;color:#000}
 </style>
 </head>
 <body>
-
-<header>
-<nav>
-<b>BackBDTeam</b>
-<div>
-<a href="misyon.html">Misyon</a>
-<a href="ihbar.html">İhbar</a>
-<a href="giris.html">Giriş yap</a>
+<header><img src="logo.png"><h3>Uluslararası Hak Koruma Birimi</h3></header>
+<div class="container">
+<p>> Yetkili erişim noktası</p>
+<input id="email" placeholder="Yetkili E-posta">
+<input id="password" type="password" placeholder="Erişim Anahtarı">
+<button onclick="login()">GİRİŞ</button>
+<p id="status"></p>
 </div>
-</nav>
-</header>
-
-<main>
-<h1>BackBDTeam</h1>
-<div class="card">
-<form id="form">
-<input placeholder="Takma ad">
-<input placeholder="E-posta">
-<input placeholder="Uzmanlık">
-<textarea placeholder="Kendinden bahset"></textarea>
-<button>Başvur</button>
-</form>
-</div>
-</main>
-
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
 
-const firebaseConfig = {
- apiKey: "AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",
- authDomain: "bd-team-30e74.firebaseapp.com",
- databaseURL: "https://bd-team-30e74-default-rtdb.firebaseio.com",
- projectId: "bd-team-30e74",
- appId: "1:240144028116:web:22773de26fcb00f2d78641"
-};
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const firebaseConfig={apiKey:"AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",authDomain:"bd-team-30e74.firebaseapp.com",databaseURL:"https://bd-team-30e74-default-rtdb.firebaseio.com",projectId:"bd-team-30e74",storageBucket:"bd-team-30e74.firebasestorage.app",messagingSenderId:"240144028116",appId:"1:240144028116:web:22773de26fcb00f2d78641"};
+const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-document.getElementById("form").onsubmit = e => {
- e.preventDefault();
- const d = e.target;
- push(ref(db,"basvurular"),{
-  nick:d[0].value,
-  email:d[1].value,
-  uzmanlik:d[2].value,
-  about:d[3].value,
-  time:Date.now()
- });
- alert("Gönderildi");
- d.reset();
-};
+
+window.login = ()=>{
+signInWithEmailAndPassword(auth,email.value,password.value)
+.then(()=>location.href='admin.html')
+.catch(e=>status.innerText='Erişim reddedildi');
+}
 </script>
-</body>
-</html>
-
+</body></html>
