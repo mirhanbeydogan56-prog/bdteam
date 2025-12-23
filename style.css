@@ -1,0 +1,23 @@
+/* HACKER THEME */
+@keyframes glitch {0%{text-shadow:2px 0 #0f0,-2px 0 #f00}50%{text-shadow:-2px 0 #0f0,2px 0 #f00}100%{text-shadow:2px 0 #0f0,-2px 0 #f00}}
+@keyframes typing {from{width:0}to{width:100%}}
+@keyframes caret {50%{border-color:transparent}}
+*{box-sizing:border-box}
+body{margin:0;background:#050505;color:#00ff9c;font-family:ui-monospace,monospace}
+header{display:flex;align-items:center;gap:16px;padding:16px;border-bottom:1px solid #0f3}
+header img{width:40px;filter:drop-shadow(0 0 6px #0f3)}
+nav{margin-left:auto;display:flex;gap:10px}
+nav a{color:#0f3;text-decoration:none;border:1px solid #0f3;padding:8px 12px;transition:.2s}
+nav a:hover{background:#0f3;color:#000;animation:glitch .2s linear infinite}
+.container{max-width:960px;margin:30px auto;padding:20px;border:1px solid #0f3;box-shadow:0 0 20px #003}
+.hacker-title{font-size:28px;letter-spacing:2px;animation:glitch .3s infinite}
+.terminal{background:#000;border:1px solid #0f3;padding:16px}
+.terminal .line{white-space:nowrap;overflow:hidden;border-right:2px solid #0f3;animation:typing 3s steps(40,end),caret .7s step-end infinite}
+input,textarea,select,button{width:100%;padding:12px;margin:8px 0;background:#000;color:#0f3;border:1px solid #0f3}
+button:hover{background:#0f3;color:#000;animation:glitch .15s infinite}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.card{border:1px solid #0f3;padding:12px}
+.low{border-color:#00ff9c}
+.mid{border-color:#ffd000}
+.high{border-color:#ff004c}
+.hidden{display:none}
