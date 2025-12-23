@@ -1,0 +1,21 @@
+<!DOCTYPE html><html lang="tr"><head>
+<meta charset="UTF-8"><title>UHKB | Bizimle Calis</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<header><img src="logo.png"><div class="hacker-title">OPERATIF BASVURU</div></header>
+<div class="container grid">
+<div>
+<input id="adsoyad" placeholder="Ad Soyad">
+<input id="beceri" placeholder="Beceri / Uzmanlik">
+<input id="mail" placeholder="E-posta">
+<textarea id="konu" rows="6" placeholder="Is gorusmesi"></textarea>
+<button id="apply">BASVUR</button>
+</div>
+</div>
+<script type="module">
+import { db, api } from './firebase.js';
+const { ref, push }=api;
+document.getElementById('apply').onclick=()=>{
+  push(ref(db,'bizimleCalis'),{adsoyad:adsoyad.value,beceri:beceri.value,email:mail.value,konu:konu.value,risk:'low'});
+  alert('Basvuru alindi');
+};
+</script></body></html>
