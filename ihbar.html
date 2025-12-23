@@ -1,17 +1,16 @@
-<!DOCTYPE html><html lang="tr"><head><meta charset="UTF-8"><title>İhbar</title>
-<style>body{background:#000;color:#0f3;font-family:monospace}textarea,button{width:100%;padding:12px;background:#000;color:#0f3;border:1px solid #0f3}</style></head>
-<body><img src="logo.png" width="40"><h3>> Gizli İhbar</h3>
-<textarea id="msg" rows="6" placeholder="Şifreli mesaj"></textarea>
-<button onclick="send()">GÖNDER</button><p id="s"></p>
+<!DOCTYPE html><html lang="tr"><head>
+<meta charset="UTF-8"><title>UHKB | Ihbar</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<header><img src="logo.png"><div class="hacker-title">IHBAR TERMINALI</div></header>
+<div class="container">
+<textarea id="ihbar" rows="6" placeholder="Detaylar..."></textarea>
+<button id="send">GONDER</button>
+</div>
 <script type="module">
-import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
-
-
-const firebaseConfig={apiKey:"AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",databaseURL:"https://bd-team-30e74-default-rtdb.firebaseio.com"};
-const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-
-window.send = ()=>{push(ref(db,'ihbarlar'),{mesaj:msg.value,tarih:Date.now()});s.innerText='Alındı';}
+import { db, api } from './firebase.js';
+const { ref, push }=api;
+document.getElementById('send').onclick=()=>{
+  push(ref(db,'ihbarlar'),{text:ihbar.value,ts:Date.now()});
+  alert('Kaydedildi'); ihbar.value='';
+};
 </script></body></html>
