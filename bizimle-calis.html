@@ -8,14 +8,42 @@
 <input id="beceri" placeholder="Beceri / Uzmanlik">
 <input id="mail" placeholder="E-posta">
 <textarea id="konu" rows="6" placeholder="Is gorusmesi"></textarea>
-<button id="apply">BASVUR</button>
+<button id="apply" type="button">BASVUR</button>
+<p id="result"></p>
 </div>
 </div>
 <script type="module">
 import { db, api } from './firebase.js';
-const { ref, push }=api;
-document.getElementById('apply').onclick=()=>{
-  push(ref(db,'bizimleCalis'),{adsoyad:adsoyad.value,beceri:beceri.value,email:mail.value,konu:konu.value,risk:'low'});
-  alert('Basvuru alindi');
-};
+const { ref, push } = api;
+
+const btn = document.getElementById('apply');
+const result = document.getElementById('result');
+
+btn.addEventListener('click', async () => {
+  try {
+    const ad = document.getElementById('adsoyad').value.trim();
+    const be = document.getElementById('beceri').value.trim();
+    const ma = document.getElementById('mail').value.trim();
+    const ko = document.getElementById('konu').value.trim();
+
+    if (!ad || !ma) {
+      result.textContent = 'Ad Soyad ve Mail zorunlu';
+      return;
+    }
+
+    await push(ref(db, 'bizimleCalis'), {
+      adsoyad: ad,
+      beceri: be,
+      email: ma,
+      konu: ko,
+      risk: 'low',
+      ts: Date.now()
+    });
+
+    result.textContent = 'Basvuru alindi';
+  } catch (err) {
+    console.error(err);
+    result.textContent = 'Hata olustu, konsolu kontrol et';
+  }
+});
 </script></body></html>
