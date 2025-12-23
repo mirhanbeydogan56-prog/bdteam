@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="tr"><head>
+<meta charset="UTF-8"><title>UHKB | Giris</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<header><img src="logo.png"><div class="hacker-title">YETKILI ERISIM</div></header>
+<div class="container">
+<input id="email" placeholder="mail@uhkb.int">
+<input id="password" type="password" placeholder="••••••••">
+<button id="loginBtn">SISTEME GIR</button>
+<p id="status"></p>
+</div>
+<script type="module">
+import { auth, api } from './firebase.js';
+const { signInWithEmailAndPassword }=api;
+document.getElementById('loginBtn').onclick=()=>{
+  signInWithEmailAndPassword(auth,email.value,password.value)
+  .then(()=>location.href='admin.html')
+  .catch(e=>status.textContent=e.code);
+};
+</script></body></html>
