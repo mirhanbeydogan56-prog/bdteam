@@ -1,64 +1,15 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<title>Uluslararası Hak Koruma Birimi</title>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<style>
-body{margin:0;font-family:monospace;background:#050505;color:#00ff9c}
-header{display:flex;gap:12px;align-items:center;padding:16px;border-bottom:1px solid #0f3}
-img{width:40px}
-.container{padding:30px}
-input,button{width:100%;padding:12px;margin:8px 0;background:#000;color:#0f3;border:1px solid #0f3}
-button:hover{background:#0f3;color:#000}
-</style>
-</head>
-<body>
-
-<header>
-  <img src="logo.png">
-  <h3>Uluslararası Hak Koruma Birimi</h3>
-</header>
-
-<div class="container">
-  <p>> Yetkili erişim</p>
-  <input id="email" placeholder="E-posta">
-  <input id="password" type="password" placeholder="Şifre">
-  <button onclick="login()">GİRİŞ</button>
-  <p id="status"></p>
+<!DOCTYPE html><html lang="tr"><head>
+<meta charset="UTF-8"><title>UHKB | Ana Sayfa</title>
+<link rel="stylesheet" href="style.css"></head><body>
+<header><img src="logo.png"><div class="hacker-title">ULUSLARARASI HAK KORUMA BIRIMI</div>
+<nav>
+<a href="index.html">ANA</a>
+<a href="ihbar.html">IHBAR</a>
+<a href="isbirligi.html">IS BIRLIGI</a>
+<a href="bizimle-calis.html">BIZIMLE CALIS</a>
+<a href="login.html">GIRIS</a>
+</nav></header>
+<div class="container terminal">
+<div class="line">root@uhkb:~$ Sistem aktif. Gizli servis devrede...</div>
 </div>
-
-<script type="module">
-import { initializeApp,getApps } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-import { getAuth,signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
-import { getDatabase,ref,get } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-database.js";
-
-const firebaseConfig={
-  apiKey:"AIzaSyASo730FXSqQx4TRhFRAQVYn9Eetyjri_s",
-  authDomain:"bd-team-30e74.firebaseapp.com",
-  databaseURL:"https://bd-team-30e74-default-rtdb.firebaseio.com",
-  projectId:"bd-team-30e74"
-};
-
-const app=getApps().length?getApps()[0]:initializeApp(firebaseConfig);
-const auth=getAuth(app);
-const db=getDatabase(app);
-
-window.login = async ()=>{
-  try{
-    const res=await signInWithEmailAndPassword(auth,email.value,password.value);
-    const uid=res.user.uid;
-
-    const snap=await get(ref(db,'yetkiliKullanicilar/'+uid));
-    if(snap.exists()){
-      location.href='gorevler.html';
-    }else{
-      location.href='admin.html';
-    }
-  }catch{
-    status.innerText='Erişim reddedildi';
-  }
-};
-</script>
-</body>
-</html>
+</body></html>
